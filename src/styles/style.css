@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap");
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #475569;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #d1d5db;
+}
+
+.navbar-fixed {
+  position: fixed;
+  z-index: 20;
+  opacity: 50;
+  box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+}
+
+div.movie-card span.orange {
+  background-color: #f97316;
+}
+div.movie-card span.red {
+  background-color: #dc2626;
+}
+div.movie-card span.green {
+  background-color: #4ade80;
+}
+.movie-card:hover .overview {
+  transform: translateY(0);
+}
