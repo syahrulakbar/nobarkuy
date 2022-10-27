@@ -5,7 +5,6 @@ const main = () => {
   const form = document.getElementById("form");
   const mainMenu = document.getElementById("mainMenu");
   const tabNav = document.querySelector("tab-navigation");
-  const button = document.getElementById("top");
 
   const sectionMovie = document.createElement("section");
   const containerMovie = document.createElement("div");
@@ -78,21 +77,35 @@ const main = () => {
       movieList.append(movieDiv);
     } else {
       data.forEach((movie) => {
-        const { title, poster_path, vote_average, overview } = movie;
-        let movieDiv = document.createElement("div");
-        movieDiv.classList.add("movie-card", "m-4", "w-[300px]", "overflow-hidden", "bg-slate-700", "mt-10", "rounded-md", "relative", "hover:scale-110", "transition-all", "ease-in-out", "duration-500");
-        movieDiv.innerHTML = `<img src="${poster_path ? IMG_URL + poster_path : "http://via.placeholder.com/1080x1580"}" alt="${title}" class="w-full" />
-      <div class="">
-        <span class=" right-0 top-0 absolute  p-2 rounded-md text-lg m-4 ${getColor(vote_average)}">${vote_average.toFixed(1)}</span>
-      </div>
-      <div class="overview px-5 py-5 p-5 max-h-full mt-5  absolute  bottom-0 right-0 left-0 bg-white text-black  translate-y-[100%] transition-all ease-in-out duration-500">
-        <div class="pt-1">
-          <h2 class="text-2xl font-semibold mb-2 mt-1">${title}</h2>
+        const { title, poster_path, vote_average } = movie;
+        if (poster_path === null) {
+          delete `${movie}`;
+        } else {
+          let movieDiv = document.createElement("div");
+          movieDiv.classList.add("movie-card", "m-4", "w-[300px]", "overflow-hidden", "bg-slate-700", "mt-10", "rounded-md", "relative", "hover:scale-110", "transition-all", "ease-in-out", "duration-500");
+          movieDiv.innerHTML = `<img src="${poster_path ? IMG_URL + poster_path : "http://via.placeholder.com/1080x1580"}" alt="${title}" class="w-full" />
+        <div class="">
+          <span class=" right-0 top-0 absolute  p-2 rounded-md text-lg m-4 ${getColor(vote_average)}">${vote_average.toFixed(1)}</span>
         </div>
-        <p class="font-light mb-2">${overview}</p>
-      </div>
-    `;
-        movieList.appendChild(movieDiv);
+        <div class="overview px-5 py-5 p-5 max-h-full mt-5  absolute  bottom-0 right-0 left-0 bg-white text-black  translate-y-[100%] transition-all ease-in-out duration-500">
+          <div class="pt-1">
+            <h2 class="text-2xl font-semibold mb-2 mt-1">${title}</h2>
+          </div>
+          <div class="flex relative justify-between flex-wrap items-center">
+            <button  class="btnDetail text-2xl font-semibold bg-green-500 p-3 text-white rounded-md">Movie Detail</button>
+            <input type="checkbox" name="" class="favBtn w-12 h-12 border-slate-900 absolute right-0 m-3" />
+            <a class="favIcon transition-all ease-in-out duration-100 m-4 text-red-500 w-12">
+              <svg xmlns="http://www.w3.org/2000/svg" class="fill-current" viewBox="0 0 512 512">
+                <path
+                  d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+      `;
+          movieList.appendChild(movieDiv);
+        }
       });
     }
   };
@@ -115,6 +128,19 @@ const main = () => {
   });
 
   getMovies(endpoint.nowPlaying);
+  // Fav Button
+
+  const favBtn = document.getElementsByClassName("favBtn");
+  const favIcon = document.getElementsByClassName("favIcon");
+  favBtn.addEventListener("click", () => {
+    if (favBtn.isChecked) {
+      favIcon.classList.add("text-red-500");
+      favIcon.classList.remove("text-gray-500");
+    } else {
+      favIcon.classList.remove("text-red-500");
+      favIcon.classList.add("text-gray-500");
+    }
+  });
 
   const showResponseMessage = (message = "Check your internet connection") => {
     alert(message);
