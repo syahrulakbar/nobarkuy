@@ -52,13 +52,11 @@ const main = () => {
       .then(() => {
         favoriteButton();
       })
-      .then(() => {
-        listMovie();
-      })
       .catch((error) => {
         showResponseMessage(error);
       });
   };
+
   function favoriteButton() {
     const favIcons = document.querySelectorAll(".favIcon");
     favIcons.forEach((favIcon) => {
