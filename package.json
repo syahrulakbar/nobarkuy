@@ -1,4 +1,5 @@
 {
+  "homepage": "https://github.com/syahrulakbar/nobarKuy/dist/index.html",
   "name": "final-project",
   "version": "1.0.0",
   "description": "",
@@ -28,5 +29,8 @@
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.11.1",
     "webpack-merge": "^5.8.0"
+  },
+  "dependencies": {
+    "sweetalert2": "^11.6.4"
   }
 }
