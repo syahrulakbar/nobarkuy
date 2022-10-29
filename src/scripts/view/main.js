@@ -68,9 +68,6 @@ const main = () => {
       });
     });
   }
-  function listMovie(data) {
-    console.log(data);
-  }
 
   const onNavSelect = () => {
     searchMovie.value = "";
@@ -133,7 +130,7 @@ const main = () => {
             <h2 class="movieTitle text-2xl font-semibold mb-2 mt-1">${title}</h2>
           </div>
           <div class="flex relative justify-between flex-wrap items-center">
-            <button onclick="${listMovie(movie)}" class="btnDetail text-2xl font-semibold bg-green-500 p-3 text-white rounded-md">Movie Detail</button>
+            <button class="btnDetail text-2xl font-semibold bg-green-500 p-3 text-white rounded-md">Movie Detail</button>
             <button  class="favIcon transition-all ease-in-out duration-100 m-4 text-gray-500 w-12">
               <svg xmlns="http://www.w3.org/2000/svg" class="fill-current" viewBox="0 0 512 512">
                 <path
