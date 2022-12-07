@@ -27,37 +27,30 @@ const main = () => {
       .then((responseJson) => {
         showMovies(responseJson.results);
       })
-      .then(() => {
-        favoriteButton();
-      })
       .catch((error) => {
         showResponseMessage(error);
       });
   };
   // Solve array of object parse
   // https://stackoverflow.com/questions/58495865/parsing-json-browser-sees-it-as-an-array-of-strings-not-an-array-of-objects
+  // let oldItems = JSON.parse(localStorage.getItem("favMovItem")) || [];
 
-  let oldItems = JSON.parse(localStorage.getItem("favMovItem")) || [];
+  // function favoriteButton() {
+  //   const favIcons = document.querySelectorAll(".favIcon");
 
-  let newArr = oldItems.map((str) => JSON.parse(str));
+  //   favIcons.forEach((favIcon) => {
+  //     favIcon.addEventListener("click", () => {
+  //       favIcon.classList.toggle("text-red-500");
+  //       favIcon.classList.toggle("text-gray-500");
+  //       let singledata = favIcon.getAttribute("data-single-movie");
+  //       // solve encode btoa and atob
+  //       // https://stackoverflow.com/questions/23223718/failed-to-execute-btoa-on-window-the-string-to-be-encoded-contains-characte
+  //       oldItems.push(decodeURIComponent(escape(window.atob(singledata))));
 
-  function favoriteButton() {
-    const favIcons = document.querySelectorAll(".favIcon");
-
-    favIcons.forEach((favIcon) => {
-      favIcon.addEventListener("click", () => {
-        favIcon.classList.toggle("text-red-500");
-        favIcon.classList.toggle("text-gray-500");
-        let singledata = favIcon.getAttribute("data-single-movie");
-
-        // solve encode btoa and atob
-        // https://stackoverflow.com/questions/23223718/failed-to-execute-btoa-on-window-the-string-to-be-encoded-contains-characte
-        oldItems.push(decodeURIComponent(escape(window.atob(singledata))));
-
-        localStorage.setItem("favMovItem", JSON.stringify(oldItems));
-      });
-    });
-  }
+  //       localStorage.setItem("favMovItem", JSON.stringify(oldItems));
+  //     });
+  //   });
+  // }
 
   const onNavSelect = () => {
     searchMovie.value = "";
@@ -77,10 +70,6 @@ const main = () => {
         break;
       case "toprated":
         getMovies(endpoint.topRated);
-        break;
-      case "favorite":
-        makeMovieFav(newArr);
-
         break;
     }
   };
@@ -109,13 +98,7 @@ const main = () => {
       movieList.append(movieDiv);
     } else {
       data.forEach((movie) => {
-        const { title, poster_path, vote_average } = movie;
-
-        let movieFav = {
-          titleMov: title,
-          posterMov: poster_path,
-          voteMov: vote_average,
-        };
+        const { title, poster_path, vote_average, overview } = movie;
 
         if (poster_path === null) {
           delete `${movie}`;
@@ -123,22 +106,13 @@ const main = () => {
           let movieDiv = document.createElement("div");
           movieDiv.classList.add("movie-card", "m-4", "w-[300px]", "overflow-hidden", "bg-slate-700", "mt-10", "rounded-md", "relative", "hover:scale-110", "transition-all", "ease-in-out", "duration-500");
           movieDiv.innerHTML = `<img src="${poster_path ? IMG_URL + poster_path : "http://via.placeholder.com/1080x1580"}" alt="${title}" class="movieImage w-full" />
-        <div">
+        <div>
           <span class="movieRate right-0 top-0 absolute  p-2 rounded-md text-lg m-4 ${getColor(vote_average)}">${vote_average.toFixed(1)}</span>
         </div>
         <div class="overview  px-5 py-5 p-5 max-h-full mt-5  absolute  bottom-0 right-0 left-0 bg-white text-black  translate-y-[100%] transition-all ease-in-out duration-500">
           <div class="pt-1">
             <h2 class="movieTitle text-2xl font-semibold mb-2 mt-1">${title}</h2>
-          </div>
-          <div class="flex relative justify-between flex-wrap items-center">
-            <button class="btnDetail text-2xl font-semibold bg-green-500 p-3 text-white rounded-md">Movie Detail</button>
-            <button data-single-movie="${btoa(unescape(encodeURIComponent(JSON.stringify(movieFav))))}" class="favIcon transition-all ease-in-out duration-100 m-4 text-gray-500 w-12">
-              <svg xmlns="http://www.w3.org/2000/svg" class="fill-current" viewBox="0 0 512 512">
-                <path
-                  d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"
-                />
-              </svg>
-            </button>
+            <p>${overview}</p>
           </div>
         </div>
       `;
@@ -148,53 +122,6 @@ const main = () => {
       });
     }
   };
-
-  function makeMovieFav(movieObject) {
-    movieList.innerHTML = "";
-
-    if (movieObject.length === 0) {
-      let movieDiv = document.createElement("div");
-
-      movieDiv.innerHTML = `
-      <div class="min-h-[70vh] bg-gradient-to-t from-slate-900 to-black flex items-center justify-center">
-        <h1 class="text-2xl font-semibold text-white text-center">Nothing Favorite Movie</h1>
-      </div>`;
-      movieList.append(movieDiv);
-    } else {
-      movieObject.forEach((movie) => {
-        const { titleMov, posterMov, voteMov } = movie;
-
-        if (posterMov === null) {
-          delete `${movie}`;
-        } else {
-          let movieDiv = document.createElement("div");
-          movieDiv.classList.add("movie-card", "m-4", "w-[300px]", "overflow-hidden", "bg-slate-700", "mt-10", "rounded-md", "relative", "hover:scale-110", "transition-all", "ease-in-out", "duration-500");
-          movieDiv.innerHTML = `<img src="${posterMov ? IMG_URL + posterMov : "http://via.placeholder.com/1080x1580"}" alt="${titleMov}" class="movieImage w-full" />
-        <div">
-          <span class="movieRate right-0 top-0 absolute  p-2 rounded-md text-lg m-4 ${getColor(voteMov)}">${voteMov.toFixed(1)}</span>
-        </div>
-        <div class="overview  px-5 py-5 p-5 max-h-full mt-5  absolute  bottom-0 right-0 left-0 bg-white text-black  translate-y-[100%] transition-all ease-in-out duration-500">
-          <div class="pt-1">
-            <h2 class="movieTitle text-2xl font-semibold mb-2 mt-1">${titleMov}</h2>
-          </div>
-          <div class="flex relative justify-between flex-wrap items-center">
-            <button class="btnDetail text-2xl font-semibold bg-green-500 p-3 text-white rounded-md">Movie Detail</button>
-            <button class="favIcon transition-all ease-in-out duration-100 m-4 text-red-500 w-12">
-              <svg xmlns="http://www.w3.org/2000/svg" class="fill-current" viewBox="0 0 512 512">
-                <path
-                  d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-      `;
-
-          movieList.appendChild(movieDiv);
-        }
-      });
-    }
-  }
 
   const clearNavSelected = () => {
     tabNav.querySelectorAll(".nav .nav-item .nav-link").forEach((item) => {
@@ -213,6 +140,7 @@ const main = () => {
     }
   });
 
+  // default render
   getMovies(endpoint.nowPlaying);
 
   const showResponseMessage = (message = "Check your internet connection") => {

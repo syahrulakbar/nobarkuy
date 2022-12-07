@@ -22,11 +22,9 @@ class TabNavigation extends HTMLElement {
                 <li class="nav-item lg:mx-2 mt-0 max-[375.5px]:mt-6 sm:mx-3 sm:mt-0"><a id="popular" class="nav-link cursor-pointer active:bg-slate-800 hover:bg-slate-800 lg:text-3xl text-lg font-semibold px-3 py-3 sm:text-xl lg:px-5 lg:py-3 rounded-lg ease-in-out transition-all duration-100">Popular</a></li>
                 <li class="nav-item lg:mx-2 mx-2 mt-0 max-[480px]:mt-6 sm:mt-0 sm:mx-3 md:mt-0"><a id="trending" class="nav-link cursor-pointer active:bg-slate-800 hover:bg-slate-800 lg:text-3xl sm:text-xl text-lg font-semibold px-2 py-3  lg:px-5 lg:py-3 rounded-lg ease-in-out transition-all duration-100">Trending</a></li>
                 <li class="nav-item lg:mx-2 mx-0 mt-0 max-[594px]:mt-6 xl:mt-0 lg:mt-6 sm:mt-5 md:mt-0 sm:mx-3"><a id="toprated" class="nav-link cursor-pointer active:bg-slate-800 hover:bg-slate-800 lg:text-3xl sm:text-xl text-lg font-semibold px-2 py-3  lg:px-5 lg:py-3 rounded-lg ease-in-out transition-all duration-100">Top Rated</a></li>
-                <li class="nav-item lg:mx-2 mx-0 mt-0 max-[594px]:mt-6 lg:mt-6 xl:mt-0 sm:mt-5 md:mt-6 sm:mx-3"><a id="favorite" class="nav-link cursor-pointer active:bg-slate-800 hover:bg-slate-800 lg:text-3xl sm:text-xl text-lg font-semibold px-2 py-3  lg:px-5 lg:py-3 rounded-lg ease-in-out transition-all duration-100">Favorite</a></li>
             </ul>
         </div>
     </nav>`;
-    // <li class="nav-item lg:mx-2 sm:mx-2 w-max-[400px]:mr-1"><a id="trending" class="nav-link cursor-pointer active:bg-slate-800 hover:bg-slate-800 lg:text-xlw-max-{400px]:text-sm text-lg font-semibold px-2 py-3 lg:px-5 lg:py-3 rounded-lg ease-in-out transition-all duration-100">Trending</a></li>
 
     const navItems = this.querySelectorAll(".nav .nav-item .nav-link");
 
